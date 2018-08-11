@@ -36,18 +36,20 @@ class MyGenerator(object):
         self.batch_size = batch_size
         self.classnames = classnames
         self.num_classes = len(classnames)
-        self.train_datas= []                                          #### train_datas 中存放了图片路径
+        self.train_datas = []                                          #### train_datas 中存放了图片路径
         fs = os.listdir(path_traindatas)
         for f in fs:
-            tmp_path = os.path.join(path_traindatas,f)
-            self.train_datasappend(tmp_path)            
+            for p in os.listdir(os.path.join(path_traindatas,f)):
+                tmp_path = os.path.join(path_traindatas,f,p)
+                self.train_datas.append(tmp_path)            
         self.train_keys = list(range(0,len(self.train_datas))) 
         self.steps_per_epoch = int(len(self.train_keys) / batch_size)
         self.valid_datas = []
         fs = os.listdir(path_validdatas)
         for f in fs:
-            tmp_path = os.path.join(path_validdatas,f)
-            self.valid_datas.append(tmp_path)
+            for p in os.listdir(os.path.join(path_validdatas,f)):
+                tmp_path = os.path.join(path_validdatas,f,p)
+                self.valid_datas.append(tmp_path)
         self.valid_keys = list(range(0,len(self.valid_datas)))
         self.train_batches = len(self.train_keys)//self.batch_size
         self.valid_batches = len(self.valid_keys)//self.batch_size
@@ -116,9 +118,9 @@ class MyGenerator(object):
         #### python中有两个很重要的用法 lamda 和正则表达式re
         #### lamda 将函数体转换为一行函数  func=lambda x:x+1 等同于 def func(x):  return(x+1)
         #### re 匹配时候用到
-        array_index = [i for self.classnames[i] in y_filename]#### 如果图片路径中会有类别的文件夹的字符 跟 classnames 中有重合的即为这张图片label
+        array_index = [i for i in range(self.num_classes) if self.classnames[i] in y_filename]#### 如果图片路径中会有类别的文件夹的字符 跟 classnames 中有重合的即为这张图片label
         #array_index = filter(lambda x: classnames[x] in y_filename, range(self.num_classes))
-        return class_array[array_index]  # Returns FLOATS
+        return class_array[array_index][0]  # Returns FLOATS
     #### 产生数据
     def generate(self, trainflag):
         if trainflag == True:
@@ -139,9 +141,10 @@ class MyGenerator(object):
                     tmp_img = imread(tmp_imgpath).astype('float32')
                     img = imresize(tmp_img, self.patch_size).astype('float32')
                     if trainflag:
-                        img = image_augument(img)
-                    y = one_hot(tmp_imgpath)
+                        img = self.image_augument(img)
+                    y = self.one_hot(tmp_imgpath)
                     inputs.append(img)
+                    print(y)
                     targets.append(y)
                 final_inputs = np.array(inputs)
                 targets = np.array(targets)

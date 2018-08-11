@@ -10,6 +10,7 @@ Created on Thu August  1 10:30:04 2018
 from datetime import datetime
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='0'               #### 多块显卡的话,指定使用第几块显卡
+path_workplace = os.getcwd()
 import argparse                                       #### 命令行传参数 看下面写的 args_parse 函数
 import sys                                           #### sys.argv跟argparse可以实现相同的功能
 import matplotlib.pyplot as plt                      #### 跟MATLAB里面的plt使用方法一样 画图用
@@ -26,7 +27,7 @@ classnames = ['dog','cat']
 #NUM_CLASSES = 2                                     #### 二分类
 NUM_CLASSES = len(classnames)                       #### len: 得到列表的长度
 EPOCHES = 10                                        #### 全部数据训练完一遍为一代
-BATCH_SIZE = 32                                     #### 一批送进多少个数据
+BATCH_SIZE = 2                                     #### 一批送进多少个数据
 PATCH_SIZE = (224,224)
 LR = 3e-4                                           #### learning rate，希望它在模型前期大，以快速找到收敛域，后期小得以找到最优解
 
@@ -92,8 +93,8 @@ def classifier_train():
     
     print("enter train process")
     
-    path_traindatas = os.path.join('./data','train')                                      #### 存放训练数据的路径
-    path_validdatas = os.path.join('./data','valid')                                      #### 存放验证集数据路径
+    path_traindatas = os.path.join(path_workplace,'data','train')                                      #### 存放训练数据的路径
+    path_validdatas = os.path.join(path_workplace,'data','valid')                                      #### 存放验证集数据路径
 
     gen = MyGenerator(path_traindatas,path_validdatas, PATCH_SIZE,BATCH_SIZE,classnames) #### 每一批数据打包成一个yield放到显存中，
     model = Network()                                   #### 网络结构
