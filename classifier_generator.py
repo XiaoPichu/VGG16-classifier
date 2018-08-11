@@ -146,7 +146,6 @@ class MyGenerator(object):
                 targets = np.array(targets)
                 yield (preprocess_input(final_inputs), targets)
     '''
-    def __call__():
-    def delete:
-    def run():
+    类中无需定义固定会有的几个函数
+    def __call__():  #通过 MyGenerator() 默认调用这个函数
     '''
