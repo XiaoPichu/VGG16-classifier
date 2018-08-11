@@ -10,9 +10,9 @@ Created on Thu August  1 10:30:04 2018
 from datetime import datetime
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='0'               #### 多块显卡的话,指定使用第几块显卡
-path_workplace = os.getcwd()
+path_workplace = os.getcwd()                          #### 获得当前工作目录  
 import argparse                                       #### 命令行传参数 看下面写的 args_parse 函数
-import sys                                           #### sys.argv跟argparse可以实现相同的功能
+import sys                                           #### sys.argv跟argparse可以实现相同的功
 import matplotlib.pyplot as plt                      #### 跟MATLAB里面的plt使用方法一样 画图用
 import numpy as np
 
@@ -103,7 +103,7 @@ def classifier_train():
     def schedule(epoch, decay=0.9):
         return LR * decay**(epoch)
     
-    #### 确定什么时候保留模型 详情参见keras中文文档
+    #### 确定什么时候保留模型 详情参见keras中文文档 只保存权重 不保存模型结构 测试的时候需要重新导入模型结构
     callbacks = [keras.callbacks.ModelCheckpoint('weights.{epoch:02d}-{val_loss:.2f}.hdf5',
                                                  verbose=1,
                                                  save_weights_only=True),
