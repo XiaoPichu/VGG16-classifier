@@ -78,12 +78,12 @@ def Network():               #### VGG16 经典的图像分类网络
     model.summary()
     return model    
 
-#### 终端运行 python 文件名.py -m ???或者python 文件名.py -model ??? 的话 ??? 就会传给args["m"]
+#### 终端运行 python 文件名.py -p ???或者python 文件名.py -plot ??? 的话 ??? 就会传给args["plot"]
 def args_parse():
     # construct the argument parse and parse the arguments
     ap = argparse.ArgumentParser()
-    ap.add_argument("-m", "--model", default="test.hdf5",
-                    help="path to output model")
+    ap.add_argument("-p", "--plot", default="plot.png",
+                    help="path to loss and acc plot")
     args = vars(ap.parse_args()) ### vars就是为了方便管理变量，类似于把他们转变成了字典类的对象，可以通过名字调用 当ap很多很多个加了进来，就很方便
     return args
 
@@ -103,7 +103,7 @@ def classifier_train():
         return LR * decay**(epoch)
     
     #### 确定什么时候保留模型 详情参见keras中文文档
-    callbacks = [keras.callbacks.ModelCheckpoint('./checkpoints/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
+    callbacks = [keras.callbacks.ModelCheckpoint('weights.{epoch:02d}-{val_loss:.2f}.hdf5',
                                                  verbose=1,
                                                  save_weights_only=True),
                  keras.callbacks.LearningRateScheduler(schedule)]
@@ -135,7 +135,7 @@ def classifier_train():
     plt.xlabel("Epoch #")
     plt.ylabel("Loss/Accuracy")
     plt.legend(loc="lower left")
-    plt.savefig('./plot.png')  
+    plt.savefig(args["plot"])  
 
 #### 主函数 只会在 python 文件名.py 时被调用 被import时不会执行
 if __name__ == '__main__':
