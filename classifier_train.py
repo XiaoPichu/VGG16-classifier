@@ -92,8 +92,8 @@ def classifier_train():
     
     print("enter train process")
     
-    path_traindatas = os.path.join('.data','train')                                      #### 存放训练数据的路径
-    path_validdatas = os.path.join('.data','valid')                                      #### 存放验证集数据路径
+    path_traindatas = os.path.join('./data','train')                                      #### 存放训练数据的路径
+    path_validdatas = os.path.join('./data','valid')                                      #### 存放验证集数据路径
 
     gen = MyGenerator(path_traindatas,path_validdatas, PATCH_SIZE,BATCH_SIZE,classnames) #### 每一批数据打包成一个yield放到显存中，
     model = Network()                                   #### 网络结构
