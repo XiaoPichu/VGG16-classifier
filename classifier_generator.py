@@ -24,6 +24,7 @@ from random import shuffle
 from scipy.misc import imread, imresize  #### 这两个要求提前安装PIL或者Pillow
 
 class MyGenerator(object):
+      
     #### 定义一些类的变量 通过self.变量名调用
     def __init__(self, path_traindatas, path_validdatas,patch_size,batch_size,classnames,
                  saturation_var=0.5,
@@ -34,24 +35,29 @@ class MyGenerator(object):
         self.batch_size = batch_size
         self.classnames = classnames
         self.num_classes = len(classnames)
-        with open(path_traindatas, 'r') as f:
-            self.train_data = f.readlines()
-            self.train_keys = [i for i in range(0,len(self.train_data),2)] #### 存的时候第一行是图片路径 第二行是图片类别
-            self.steps_per_epoch = int(len(self.train_keys) / batch_size)
-        with open(path_validdatas, 'r') as f:
-            self.valid_data = f.readlines()
-            self.valid_keys = [i for i in range(0,len(self.valid_data),2)]
-            self.validation_steps = int(len(self.valid_keys) / batch_size)
-        self.train_batches = len(self.trainkeys)//self.batch_size
-        self.valid_batches = len(self.validkeys)//self.batch_size
+        self.train_data = []                                          #### train_data 中存放了图片路径
+        fs = os.listdir(path_traindatas)
+        for f in fs:
+            tmp_path = os.path.join(fs,f)
+            self.train_data.append(tmp_path)            
+        self.train_keys = list(range(0,len(self.train_data))) 
+        self.steps_per_epoch = int(len(self.train_keys) / batch_size)
+        self.valid_data = []
+        fs = os.listdir(path_validdatas)
+        for f in fs:
+            tmp_path = os.path.join(fs,f)
+            self.valid_data.append(tmp_path)
+        self.valid_keys = list(range(0,len(self.valid_data)))
+        self.train_batches = len(self.train_keys)//self.batch_size
+        self.valid_batches = len(self.valid_keys)//self.batch_size
         #### 控制图像增强的一些参数
         self.saturation_var = saturation_var
         self.brightness_var = brightness_var
         self.contrast_var = contrast_var
         self.lighting_std = lighting_std
 
+      
     #### 定义一些类的函数，self只在函数定义的时候传进去，证明是类的函数，可以被调用 但是 在调用的时候不用传递
-
     #### 数据增强部分 只对训练集做数据增强，验证集不需要
     def grayscale(self, rgb):                  #### 得到灰度图
         return rgb.dot([0.299, 0.587, 0.114])  #### rgb转灰度图
@@ -102,24 +108,26 @@ class MyGenerator(object):
             return self.horizontal_flip(img)
         else:
             return self.vertical_flip(img)
-
     #### onehot编码方式：将 类别0 由 [0] 变成 [1,0],将 类别1 由 [1] 变成 [0,1]
     def one_hot(self,y_filename):
         class_array = np.eye(self.num_classes)               #### 生成一个只有主对角线元素为1其余为0的
                                                              #### self.num_classes*self.num_classes 大小的浮点数矩阵
         #### python中有两个很重要的用法 lamda 和正则表达式re
-
-        return [np.array(y_, dtype=np.int32)]  # Returns FLOATS
-
+        #### lamda 将函数体转换为一行函数
+        #### re 匹配时候用到
+        array_index = [i for self.classnames[i] in y_filename]#### 如果图片路径中会有类别的文件夹的字符 跟 classnames 中有重合的即为这张图片label
+        #
+        #
+        return class_array[array_index]  # Returns FLOATS
     #### 产生数据
     def generate(self, trainflag):
         if trainflag == True:
             datas = self.train_datas
-            keys = self.trainkeys
+            keys = self.train_keys
             num_batch = self.train_batches
         else:
             datas = self.valid_datas
-            keys = self.validkeys
+            keys = self.valid_keys
             num_batch = self.valid_batches
         while True:
             shuffle(keys)
@@ -127,13 +135,14 @@ class MyGenerator(object):
                 inputs = []
                 targets = []
                 for j in range(self.batch_size):
-                    tmp_img = imread(datas[keys[j + i * self.batch_size]].strip('\n')).astype('float32')
+                    tmp_imgpath = datas[keys[j + i * self.batch_size]]
+                    tmp_img = imread(tmp_imgpath).astype('float32')
                     img = imresize(tmp_img, self.patch_size).astype('float32')
                     if trainflag:
                         img = image_augument(img)
-                    y = one_hot()
+                    y = one_hot(tmp_imgpath)
                     inputs.append(img)
-                    targets.append(y[0])
+                    targets.append(y)
                 final_inputs = np.array(inputs)
                 targets = np.array(targets)
                 yield (preprocess_input(final_inputs), targets)
