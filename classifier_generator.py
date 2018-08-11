@@ -144,7 +144,7 @@ class MyGenerator(object):
                         img = self.image_augument(img)
                     y = self.one_hot(tmp_imgpath)
                     inputs.append(img)
-                    print(y)
+                    print(j + i * self.batch_size)
                     targets.append(y)
                 final_inputs = np.array(inputs)
                 targets = np.array(targets)
