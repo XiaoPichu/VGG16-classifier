@@ -39,14 +39,14 @@ class MyGenerator(object):
         self.train_data = []                                          #### train_data 中存放了图片路径
         fs = os.listdir(path_traindatas)
         for f in fs:
-            tmp_path = os.path.join(fs,f)
+            tmp_path = os.path.join(path_traindatas,f)
             self.train_data.append(tmp_path)            
         self.train_keys = list(range(0,len(self.train_data))) 
         self.steps_per_epoch = int(len(self.train_keys) / batch_size)
         self.valid_data = []
         fs = os.listdir(path_validdatas)
         for f in fs:
-            tmp_path = os.path.join(fs,f)
+            tmp_path = os.path.join(path_validdatas,f)
             self.valid_data.append(tmp_path)
         self.valid_keys = list(range(0,len(self.valid_data)))
         self.train_batches = len(self.train_keys)//self.batch_size
