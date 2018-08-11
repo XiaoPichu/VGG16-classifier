@@ -20,6 +20,7 @@ data/
 
 from keras.applications.imagenet_utils import preprocess_input  #### 会把RGB 图像的像素点的取值范围从0-255归一化到0-1 便于网络学习
 import numpy as np
+import os
 from random import shuffle
 from scipy.misc import imread, imresize  #### 这两个要求提前安装PIL或者Pillow
 
