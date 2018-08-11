@@ -33,7 +33,7 @@ LR = 3e-4                                           #### learning rate，希望�
 #### 定义一些函数
 ###################################################  network structure
 def Network():               #### VGG16 经典的图像分类网络
-    inputs = Input(shape=PATCH_SIZE)                #### 大小是224*224
+    inputs = Input(shape=(PATCH_SIZE[0],PATCH_SIZE[1],3))                #### 大小是224*224
 
     #### 一般这个叫做一个block 因为参数都是32
     conv1_1 = Conv2D(64, (3,3), padding="same", strides=(1,1), use_bias=False)(inputs)
