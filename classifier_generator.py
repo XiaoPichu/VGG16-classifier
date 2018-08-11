@@ -42,15 +42,15 @@ class MyGenerator(object):
             for p in os.listdir(os.path.join(path_traindatas,f)):
                 tmp_path = os.path.join(path_traindatas,f,p)
                 self.train_datas.append(tmp_path)            
-        self.train_keys = list(range(0,len(self.train_datas))) 
-        self.steps_per_epoch = int(len(self.train_keys) / batch_size)
+        self.train_keys = list(range(len(self.train_datas))) 
+        
         self.valid_datas = []
         fs = os.listdir(path_validdatas)
         for f in fs:
             for p in os.listdir(os.path.join(path_validdatas,f)):
                 tmp_path = os.path.join(path_validdatas,f,p)
                 self.valid_datas.append(tmp_path)
-        self.valid_keys = list(range(0,len(self.valid_datas)))
+        self.valid_keys = list(range(len(self.valid_datas)))
         self.train_batches = len(self.train_keys)//self.batch_size
         self.valid_batches = len(self.valid_keys)//self.batch_size
         #### 控制图像增强的一些参数
@@ -144,7 +144,6 @@ class MyGenerator(object):
                         img = self.image_augument(img)
                     y = self.one_hot(tmp_imgpath)
                     inputs.append(img)
-                    print(j + i * self.batch_size)
                     targets.append(y)
                 final_inputs = np.array(inputs)
                 targets = np.array(targets)
