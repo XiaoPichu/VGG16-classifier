@@ -36,18 +36,18 @@ class MyGenerator(object):
         self.batch_size = batch_size
         self.classnames = classnames
         self.num_classes = len(classnames)
-        self.train_data = []                                          #### train_data 中存放了图片路径
+        self.train_datas= []                                          #### train_datas 中存放了图片路径
         fs = os.listdir(path_traindatas)
         for f in fs:
             tmp_path = os.path.join(path_traindatas,f)
-            self.train_data.append(tmp_path)            
+            self.train_datasappend(tmp_path)            
         self.train_keys = list(range(0,len(self.train_data))) 
         self.steps_per_epoch = int(len(self.train_keys) / batch_size)
-        self.valid_data = []
+        self.valid_datas = []
         fs = os.listdir(path_validdatas)
         for f in fs:
             tmp_path = os.path.join(path_validdatas,f)
-            self.valid_data.append(tmp_path)
+            self.valid_datas.append(tmp_path)
         self.valid_keys = list(range(0,len(self.valid_data)))
         self.train_batches = len(self.train_keys)//self.batch_size
         self.valid_batches = len(self.valid_keys)//self.batch_size
