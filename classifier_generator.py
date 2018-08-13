@@ -118,9 +118,9 @@ class MyGenerator(object):
         #### python中有两个很重要的用法 lamda 和正则表达式re
         #### lamda 将函数体转换为一行函数  func=lambda x:x+1 等同于 def func(x):  return(x+1)
         #### re 匹配时候用到
-        array_index = [i for i in range(self.num_classes) if self.classnames[i] in y_filename]#### 如果图片路径中会有类别的文件夹的字符 跟 classnames 中有重合的即为这张图片label
+        array_index = i for i in range(self.num_classes) if self.classnames[i] in y_filename#### 如果图片路径中会有类别的文件夹的字符 跟 classnames 中有重合的即为这张图片label
         #array_index = filter(lambda x: classnames[x] in y_filename, range(self.num_classes))
-        return class_array[array_index][0]  # Returns FLOATS
+        return class_array[array_index]  # Returns FLOATS
     #### 产生数据
     def generate(self, trainflag):
         if trainflag == True:
