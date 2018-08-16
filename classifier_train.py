@@ -115,8 +115,8 @@ def classifier_train(args):
     # optim = keras.optimizers.SGD(lr=LR, momentum=0.9, decay= LR / EPOCHES, nesterov=False)
     
     #### 选择loss函数
-    model.compile(loss='binary_crossentropy', optimizer=optim, metrics=['accuracy'])        #### 二分类
-    # model.compile(loss='categorical_crossentropy', optimizer=optim, metrics=['accuracy']) #### 多分类
+    #model.compile(loss='binary_crossentropy', optimizer=optim, metrics=['accuracy'])        #### 二分类
+    model.compile(loss='categorical_crossentropy', optimizer=optim, metrics=['accuracy']) #### 多分类
     
     #### 每一代生成的模型相关数据就存在history这个量中
     #### fit_generator是keras自己的一个送数据的方式 每一次会产生一个yield 
