@@ -152,3 +152,12 @@ class MyGenerator(object):
     类中无需定义固定会有的几个函数
     def __call__():  #通过 MyGenerator() 默认调用这个函数
     '''
+if __name__ == '__main__':
+    classnames = ['dog', 'cat']
+    BATCH_SIZE = 16  #### 一批送进多少个数据
+    PATCH_SIZE = (224, 224)
+    path_workplace = os.getcwd()
+    path_traindatas = os.path.join(path_workplace,'data','train')                                      #### 存放训练数据的路径
+    path_validdatas = os.path.join(path_workplace,'data','valid')                                      #### 存放验证集数据路径
+    gen = MyGenerator(path_traindatas, path_validdatas, PATCH_SIZE, BATCH_SIZE, classnames)  #### 每一批数据打包成一个yield放到显存中，
+    gen.generate(True)
