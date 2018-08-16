@@ -60,11 +60,11 @@ def Network():               #### VGG16 经典的图像分类网络
     
     maxpool_3 = MaxPool2D(pool_size=(2,2))(conv3_3) #### 第三次pool 大小变成28*28
 
-    conv4_1 = Conv2D(256, (3,3), padding="same", strides=(1,1), use_bias=False)(maxpool_3)
+    conv4_1 = Conv2D(512, (3,3), padding="same", strides=(1,1), use_bias=False)(maxpool_3)
     conv4_1 = Activation('relu')(conv4_1)
-    conv4_2 = Conv2D(256, (3,3), padding="same", strides=(1,1), use_bias=False)(conv4_1)
+    conv4_2 = Conv2D(512, (3,3), padding="same", strides=(1,1), use_bias=False)(conv4_1)
     conv4_2 = Activation('relu')(conv4_2)
-    conv4_3 = Conv2D(256, (3,3), padding="same", strides=(1,1), use_bias=False)(conv4_2)
+    conv4_3 = Conv2D(512, (3,3), padding="same", strides=(1,1), use_bias=False)(conv4_2)
     conv4_3 = Activation('relu')(conv4_3)
     
     maxpool_4 = MaxPool2D(pool_size=(2,2))(conv4_3) #### 第四次pool 大小变成14*14
