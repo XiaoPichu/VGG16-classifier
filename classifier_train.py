@@ -89,7 +89,7 @@ def args_parse():
     return args
 
 #### 训练过程
-def classifier_train():    
+def classifier_train(args):    
     
     print("enter train process")
     
@@ -141,8 +141,8 @@ def classifier_train():
 #### 主函数 只会在 python 文件名.py 时被调用 被import时不会执行
 if __name__ == '__main__':
     starttime = datetime.now()    
-    args_parse()
-    classifier_train()
+    args = args_parse()
+    classifier_train(args)
     endtime = datetime.now()
     print("runtime:  ",(endtime-starttime).seconds)
 
