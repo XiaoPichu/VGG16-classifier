@@ -112,7 +112,7 @@ def classifier_train(args):
     #### 选择优化函数
     optim = keras.optimizers.Adam(lr=LR)
     # optim = keras.optimizers.RMSprop(lr=LR)
-    # optim = keras.optimizers.SGD(lr=LR, momentum=0.9, decay= lrate / epochs, nesterov=False)
+    # optim = keras.optimizers.SGD(lr=LR, momentum=0.9, decay= LR / EPOCHES, nesterov=False)
     
     #### 选择loss函数
     model.compile(loss='binary_crossentropy', optimizer=optim, metrics=['accuracy'])        #### 二分类
