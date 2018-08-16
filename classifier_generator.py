@@ -138,8 +138,8 @@ class MyGenerator(object):
                 targets = []
                 for j in range(self.batch_size):
                     tmp_imgpath = datas[keys[j + i * self.batch_size]]
-                    tmp_img = imread(tmp_imgpath)
-                    img = imresize(tmp_img, self.patch_size)
+                    tmp_img = imread(tmp_imgpath).astype("float32")
+                    img = imresize(tmp_img, self.patch_size).astype("float32")
                     if trainflag:
                         img = self.image_augument(img)
                     y = self.one_hot(tmp_imgpath)
