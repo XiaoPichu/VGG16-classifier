@@ -69,10 +69,10 @@ def Network():               #### VGG16 经典的图像分类网络
     
     maxpool_4 = MaxPool2D(pool_size=(2,2))(conv4_3) #### 第四次pool 大小变成14*14
 
-    flatten = Flatten()(maxpool_3)
+    flatten = Flatten()(maxpool_4)
 
-    dense_1 = Dense(4096, activation='relu')(flatten)  #### 也可以把激活函数拆出来写成上面的那种 Activation('relu') 的格式
-    dense_2 = Dense(1000, activation='relu')(dense_1)
+    dense_1 = Dense(200, activation='relu')(flatten)  #### 也可以把激活函数拆出来写成上面的那种 Activation('relu') 的格式
+    dense_2 = Dense(20, activation='relu')(dense_1)
     outputs = Dense(NUM_CLASSES, activation='softmax')(dense_2) ####　最后一定是和类别数相同的
 
     model = Model(inputs=inputs, outputs=outputs)
@@ -141,6 +141,7 @@ def classifier_train():
 #### 主函数 只会在 python 文件名.py 时被调用 被import时不会执行
 if __name__ == '__main__':
     starttime = datetime.now()    
+    args_parse()
     classifier_train()
     endtime = datetime.now()
     print("runtime:  ",(endtime-starttime).seconds)
